@@ -29,4 +29,24 @@ do
     aws ec2 wait instance-running --instance-ids $INSTANCE_ID
     echo "Instance is now running."
 
+
+    # ====== GET PUBLIC IP ADDRESS ======
+    if [ $instance != "frontend" ]
+    then
+        IP=$(aws ec2 describe-instances \
+        --instance-ids $INSTANCE_ID \
+        --query "Reservations[0].Instances[0].PrivateIpAddress" \
+        --output text)
+    else
+        IP=$(aws ec2 describe-instances \
+        --instance-ids $INSTANCE_ID \
+        --query "Reservations[0].Instances[0].PublicIpAddress" \
+        --output text)
+    fi
+
+    echo "$IP"
+    echo "✅ Instance '$instance' launched successfully."
+    echo "🔑 Instance ID: $INSTANCE_ID"
+    echo "🌐 Public IP: $PUBLIC_IP"
+
 done
