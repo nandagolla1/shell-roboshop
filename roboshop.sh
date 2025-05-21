@@ -41,11 +41,11 @@ do
         --instance-ids $INSTANCE_ID \
         --query "Reservations[0].Instances[0].PublicIpAddress" \
         --output text)
+    fi
 
 
     echo "✅ Instance '$instance' launched successfully."
     echo "🔑 Instance ID: $INSTANCE_ID"
     echo "🌐 Public IP: $PUBLIC_IP"
-
 done
 
