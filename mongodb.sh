@@ -27,9 +27,8 @@ else
 fi
 
 PACKAGE_INSTALLER(){
-    dnf list installed $1 | tee -a $LOG_FILE
-    if [ ${PIPESTATUS[0]} -ne 0 ]
-    echo "$?"
+    dnf list installed $1 &>> $LOG_FILE
+    if [ $? -ne 0 ]
     then
         echo -e "$1 is not installed, going to install it...${GREEN}Installing...${RESET}" | tee -a $LOG_FILE
 
