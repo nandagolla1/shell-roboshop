@@ -31,12 +31,12 @@ do
     # ====== GET PUBLIC IP ADDRESS ======
     if [ $instance != "frontend" ]
     then
-        PUBLIC_IP=$(aws ec2 describe-instances \
+        IP=$(aws ec2 describe-instances \
         --instance-ids $INSTANCE_ID \
         --query "Reservations[0].Instances[0].PrivateIpAddress" \
         --output text)
     else
-        PUBLIC_IP=$(aws ec2 describe-instances \
+        IP=$(aws ec2 describe-instances \
         --instance-ids $INSTANCE_ID \
         --query "Reservations[0].Instances[0].PublicIpAddress" \
         --output text)
@@ -45,6 +45,37 @@ do
 
     echo "✅ Instance '$instance' launched successfully."
     echo "🔑 Instance ID: $INSTANCE_ID"
-    echo "🌐 Public IP: $PUBLIC_IP"
+    echo "🌐 Public IP: $IP"
+
+    # Create a JSON file for the record change
+    cat > record-set.json <<EOF
+    {
+    "Comment": "Create or update A record for $instance.$DOMAIN_ID",
+    "Changes": [
+        {
+        "Action": "UPSERT",
+        "ResourceRecordSet": {
+            "Name": "$instance.$DOMAIN_ID",
+            "Type": "A",
+            "TTL": 1,
+            "ResourceRecords": [
+            {
+                "Value": "$IP"
+            }
+            ]
+        }
+        }
+    ]
+    }
+EOF
+
+    # Run the Route 53 update command
+    aws route53 change-resource-record-sets \
+    --hosted-zone-id $ZONE_ID \
+    --change-batch file://record-set.json
+
+    # Clean up
+    rm -f record-set.json
+
 done
 
