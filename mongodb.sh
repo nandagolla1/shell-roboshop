@@ -44,6 +44,7 @@ PACKAGE_INSTALLER(){
 
     else
         echo -e "$1 already ${GREEN}installed....${RESET}" | tee -a $LOG_FILE
+        exit 1
     fi
 }
 
