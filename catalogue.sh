@@ -118,11 +118,11 @@ VALIDATE $? "downloading and installing mongo client"
 
 mongosh --host MONGODB-SERVER-IPADDRESS </app/db/master-data.js
 STATUS=$(mongosh --host mongodb.daws84s.site --eval 'db.getMongo().getDBNames().indexOf("catalogue")') &>> $LOG_FILE
-echo "$STATUS"
-if [ $STATUS -lt 0 ]
-then
-    mongosh --host mongodb.daws84s.site </app/db/master-data.js
-    VALIDATE $? "Loading data into MongoDB"
-else
-    echo -e "Data is already loaded ... $Y SKIPPING $N"
-fi
+echo "$?"
+#    if [ $STATUS -lt 0 ]
+#    then
+#        mongosh --host mongodb.daws84s.site </app/db/master-data.js
+#        VALIDATE $? "Loading data into MongoDB"
+#    else
+#        echo -e "Data is already loaded ... $Y SKIPPING $N"
+#    fi
