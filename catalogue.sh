@@ -117,6 +117,8 @@ VALIDATE $? "downloading and installing mongo client"
 
 mongosh --host mongodb.nanda.cyou </app/db/master-data.js
 
+#=========the below condition is to check whether a database named catalogue exists on a MongoDB server.================
+
 #STATUS=$(mongosh --host mongodb.daws84s.site --eval 'db.getMongo().getDBNames().indexOf("catalogue")')
 #if [ $STATUS -lt 0 ]
 #then
