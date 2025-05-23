@@ -116,6 +116,7 @@ PACKAGE_INSTALLER mongodb-mongosh &>> $LOG_FILE
 VALIDATE $? "downloading and installing mongo client"
 
 
+mongosh --host MONGODB-SERVER-IPADDRESS </app/db/master-data.js
 STATUS=$(mongosh --host mongodb.daws84s.site --eval 'db.getMongo().getDBNames().indexOf("catalogue")') &>> $LOG_FILE
 echo "$STATUS"
 if [ $STATUS -lt 0 ]
