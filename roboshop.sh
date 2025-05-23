@@ -45,7 +45,7 @@ do
 
     echo "✅ Instance '$instance' launched successfully."
     echo "🔑 Instance ID: $INSTANCE_ID"
-    echo "🌐 Public IP: $IP"
+    echo "🌐 IP: $IP"
 
     # Create a JSON file for the record change
     cat > record-set.json <<EOF
