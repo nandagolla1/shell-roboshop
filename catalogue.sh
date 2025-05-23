@@ -44,7 +44,7 @@ PACKAGE_INSTALLER(){
 
     else
         echo -e "$1 already ${GREEN}installed....${RESET}" | tee -a $LOG_FILE
-        exit 1
+        
     fi
 }
 
@@ -119,7 +119,7 @@ VALIDATE $? "downloading and installing mongo client"
 STATUS=$(mongosh --host mongodb.daws84s.site --eval 'db.getMongo().getDBNames().indexOf("catalogue")') &>> $LOG_FILE
 if [ $STATUS -lt 0 ]
 then
-    mongosh --host mongodb.daws84s.site </app/db/master-data.js &>>$LOG_FILE
+    mongosh --host mongodb.daws84s.site </app/db/master-data.js
     VALIDATE $? "Loading data into MongoDB"
 else
     echo -e "Data is already loaded ... $Y SKIPPING $N"
