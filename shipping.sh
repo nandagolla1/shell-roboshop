@@ -69,45 +69,45 @@ then
     useradd --system --home /app --shell /sbin/nologin --comment "roboshop system user" roboshop &>> $LOG_FILE
     VALIDATE $? "robo user created"
 else
-    echo "robo user already created"
+    echo "robo user already created"  &>>$LOG_FILE
 fi
 
 
-mkdir -p /app
+mkdir -p /app &>>$LOG_FILE
 VALIDATE $? "checking app directory is there is not, if not create" 
 
 
-curl -L -o /tmp/shipping.zip https://roboshop-artifacts.s3.amazonaws.com/shipping-v3.zip 
+curl -L -o /tmp/shipping.zip https://roboshop-artifacts.s3.amazonaws.com/shipping-v3.zip  &>>$LOG_FILE
 VALIDATE $? "Downloading application code"
 
-cd /app 
+cd /app  &>>$LOG_FILE
 VALIDATE $? "change current directory to the /app directory"
 
-unzip /tmp/shipping.zip
+unzip /tmp/shipping.zip &>>$LOG_FILE
 VALIDATE $? "unzipping the application code to /app directory"
 
-rm -rf /app/*
-cd /app 
+rm -rf /app/* &>>$LOG_FILE
+cd /app  &>>$LOG_FILE
 
-mvn clean package 
+mvn clean package  &>>$LOG_FILE
 VALIDATE $? "Packaging the shipping application"
 
-mv target/shipping-1.0.jar shipping.jar 
+mv target/shipping-1.0.jar shipping.jar  &>>$LOG_FILE
 VALIDATE $? "installing all dependencies and libraries required to the application"
 
 
-cp $SCRIPT_DIR/shipping.service /etc/systemd/system/shipping.service
+cp $SCRIPT_DIR/shipping.service /etc/systemd/system/shipping.service &>>$LOG_FILE
 VALIDATE $? "adding application to the systemctl services"
 
 
-systemctl daemon-reload
+systemctl daemon-reload &>>$LOG_FILE
 VALIDATE $? "reloading the systemctl service"
 
 
-systemctl enable shipping
+systemctl enable shipping &>>$LOG_FILE
 VALIDATE $? "enabling our application used by systemctl commands"
 
-systemctl start shipping
+systemctl start shipping &>>$LOG_FILE
 VALIDATE $? "starting services"
 
 PACKAGE_INSTALLER mysql
