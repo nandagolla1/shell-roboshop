@@ -33,7 +33,7 @@ PACKAGE_INSTALLER(){
         echo -e "$1 is not installed, going to install it...${GREEN}Installing...${RESET}" | tee -a $LOG_FILE
 
 
-        dnf install $1 -y | tee -a $LOG_FILE
+        dnf install $1 -y &>> $LOG_FILE
         if [ $? -ne 0 ]
         then
             echo -e "${RED}$1 not installed...${RESET}" | tee -a $LOG_FILE
