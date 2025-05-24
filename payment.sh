@@ -60,7 +60,8 @@ VALIDATE(){
 }
 
 
-PACKAGE_INSTALLER python3 gcc python3-devel
+dnf install python3 gcc python3-devel -y &>>$LOG_FILE
+VALIDATE $? "Install Python3 packages"
 
 
 id roboshop &>> $LOG_FILE
