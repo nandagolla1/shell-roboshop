@@ -61,24 +61,24 @@ VALIDATE(){
 }
 
 
-dnf module disable redis -y
+dnf module disable redis -y  &>> $LOG_FILE
 VALIDATE $? "Disabling the default redis version"
 
-dnf module enable redis:7 -y
+dnf module enable redis:7 -y &>> $LOG_FILE
 VALIDATE $? "enable redis version:7 "
 
 PACKAGE_INSTALLER redis
 
 
-sed -i -e 's/127.0.0.1/0.0.0.0/g' -e '/protected-mode/ c protected-mode no' /etc/redis/redis.conf
+sed -i -e 's/127.0.0.1/0.0.0.0/g' -e '/protected-mode/ c protected-mode no' /etc/redis/redis.conf &>> $LOG_FILE
 VALIDATE $? "Edited redis.conf to accept remote connections"
 
 
-systemctl enable redis
+systemctl enable redis &>> $LOG_FILE
 VALIDATE $? "Enabling Redis"
 
 
-systemctl start redis 
+systemctl start redis  &>> $LOG_FILE
 VALIDATE $? "starting redis application"
 
 END_TIME=$(date +%s)
