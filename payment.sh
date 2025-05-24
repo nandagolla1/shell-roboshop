@@ -89,6 +89,8 @@ VALIDATE $? "unzipping the application code to /app directory"
 pip3 install -r requirements.txt &>> $LOG_FILE
 VALIDATE $? "Installing dependencies"
 
+cp $SCRIPT_DIR/payment.service /etc/systemd/system/payment.service &>>$LOG_FILE
+VALIDATE $? "Copying payment service"
 
 systemctl daemon-reload &>> $LOG_FILE
 VALIDATE $? "reloading the systemctl service"
