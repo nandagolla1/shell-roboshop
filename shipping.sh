@@ -80,14 +80,14 @@ VALIDATE $? "checking app directory is there is not, if not create"
 curl -L -o /tmp/shipping.zip https://roboshop-artifacts.s3.amazonaws.com/shipping-v3.zip  &>>$LOG_FILE
 VALIDATE $? "Downloading application code"
 
+
+rm -rf /app/* &>>$LOG_FILE
 cd /app  &>>$LOG_FILE
-VALIDATE $? "change current directory to the /app directory"
 
 unzip /tmp/shipping.zip &>>$LOG_FILE
 VALIDATE $? "unzipping the application code to /app directory"
 
-rm -rf /app/* &>>$LOG_FILE
-cd /app  &>>$LOG_FILE
+
 
 mvn clean package  &>>$LOG_FILE
 VALIDATE $? "Packaging the shipping application"
