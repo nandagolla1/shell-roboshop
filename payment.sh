@@ -72,33 +72,33 @@ else
     echo "robo user already created"
 fi
 
-mkdir -p /app
+mkdir -p /app  &>> $LOG_FILE
 VALIDATE $? "checking app directory is there is not, if not create" 
 
-curl -L -o /tmp/payment.zip https://roboshop-artifacts.s3.amazonaws.com/payment-v3.zip 
+curl -L -o /tmp/payment.zip https://roboshop-artifacts.s3.amazonaws.com/payment-v3.zip  &>> $LOG_FILE
 VALIDATE $? "Downloading application code"
 
-rm -rf /app/*
+rm -rf /app/* &>> $LOG_FILE
 cd /app 
 VALIDATE $? "change current directory to the /app directory"
 
-unzip /tmp/payment.zip
+unzip /tmp/payment.zip &>> $LOG_FILE
 VALIDATE $? "unzipping the application code to /app directory"
 
-pip3 install -r requirements.txt
+pip3 install -r requirements.txt &>> $LOG_FILE
 VALIDATE $? "Installing dependencies"
 
 
-systemctl daemon-reload
+systemctl daemon-reload &>> $LOG_FILE
 VALIDATE $? "reloading the systemctl service"
 
-systemctl enable payment 
+systemctl enable payment  &>> $LOG_FILE
 VALIDATE $? "enabling our application used by systemctl commands"
 
-systemctl start payment
+systemctl start payment &>> $LOG_FILE
 VALIDATE $? "starting services"
 
-END_TIME=$(date +%s)
+END_TIME=$(date +%s) &>> $LOG_FILE
 TOTAL_TIME=$(( $END_TIME - $START_TIME ))
 
 echo -e "Script exection completed successfully, $Y time taken: $TOTAL_TIME seconds $N" | tee -a $LOG_FILE
