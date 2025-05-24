@@ -79,7 +79,7 @@ mkdir -p /app
 VALIDATE $? "checking app directory is there is not, if not create" 
 
 
-curl -o /tmp/redis.zip https://roboshop-artifacts.s3.amazonaws.com/redis-v3.zip &>> $LOG_FILE
+curl -o /tmp/user.zip https://roboshop-artifacts.s3.amazonaws.com/user-v3.zip &>> $LOG_FILE
 VALIDATE $? "Downloading application code"
 
 rm -rf /app/* &>> $LOG_FILE
@@ -87,14 +87,14 @@ cd /app
 VALIDATE $? "change current directory to the /app directory"
 
 
-unzip /tmp/redis.zip &>> $LOG_FILE
+unzip /tmp/user.zip &>> $LOG_FILE
 VALIDATE $? "unzipping the application code to /app directory"
 
 
 npm install &>> $LOG_FILE
 VALIDATE $? "installing all dependencies and libraries required to the application"
 
-cp $SCRIPT_DIR/redis.service /etc/systemd/system/redis.service
+cp $SCRIPT_DIR/user.service /etc/systemd/system/user.service
 VALIDATE $? "adding application to the systemctl services"
 
 
@@ -102,8 +102,8 @@ systemctl daemon-reload &>> $LOG_FILE
 VALIDATE $? "reloading the systemctl service"
 
 
-systemctl enable redis &>> $LOG_FILE
+systemctl enable user &>> $LOG_FILE
 VALIDATE $? "enabling our application used by systemctl commands"
 
-systemctl start redis &>> $LOG_FILE
+systemctl start user &>> $LOG_FILE
 VALIDATE $? "starting services"
